@@ -1,0 +1,13 @@
+/* Force main menu visible on page load */
+#menu-display-center {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+}
+/* Keep canvas clickable only when menu is hidden */
+#menu-display-center.showing + #canvas-container,
+#menu-display-center {
+  pointer-events: auto;
+}

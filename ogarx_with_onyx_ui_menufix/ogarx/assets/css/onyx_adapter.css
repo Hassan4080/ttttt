@@ -1,0 +1,9 @@
+#onyx-ui{position:absolute;inset:0;pointer-events:none;font-family:Ubuntu,Arial,sans-serif;z-index:2;}
+#onyx-ui .hud{position:absolute;top:12px;right:12px;width:min(320px,30vw);background:rgba(10,10,14,.55);backdrop-filter:blur(2px);
+border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 12px;pointer-events:auto}
+#onyx-ui .hud h3{margin:4px 0 8px 0;font-size:14px;font-weight:600;color:#eee;letter-spacing:.5px}
+#onyx-ui #leaderboard .lb-list .lb-position{display:flex;align-items:center;gap:8px;padding:2px 0;color:#ddd;font-size:13px}
+#onyx-ui #leaderboard .lb-list .lb-position .pos{display:inline-block;min-width:20px;text-align:right;color:#bbb;opacity:.9}
+#onyx-ui #leaderboard .lb-list .lb-position .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff}
+#leaderboard-canvas{opacity:0;pointer-events:none}
+#game-display{position:relative;z-index:1}
