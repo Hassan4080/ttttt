@@ -1,0 +1,18 @@
+
+#menu-display-center { display: none !important; }
+#albion-ui { position:absolute; inset:0; z-index:30; pointer-events:none; font-family: Ubuntu, Arial, sans-serif; }
+#albion-ui .panel { pointer-events:auto; }
+#albion-ui .topbar { position:absolute; top:0; left:0; right:0; height:56px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; border-bottom:1px solid rgba(255,255,255,.08); background:rgba(12,12,16,.75); }
+#albion-ui .brand { color:#fff; font-weight:700; letter-spacing:.4px; }
+#albion-ui .btn { background:rgba(255,255,255,.08); color:#eee; border:1px solid rgba(255,255,255,.12); padding:6px 10px; border-radius:8px; cursor:pointer; user-select:none; }
+#albion-ui .btn:hover { background:rgba(255,255,255,.15); }
+#albion-ui .menu { position:absolute; top:72px; left:50%; transform:translateX(-50%); width:min(820px,90vw); background:rgba(18,18,24,.85); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:16px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+#albion-ui .menu h3 { color:#f0f0f0; margin:6px 0 10px 0; font-size:16px; }
+#albion-ui .field { display:flex; flex-direction:column; gap:6px; margin-bottom:10px; }
+#albion-ui .field label { color:#ddd; font-size:13px; }
+#albion-ui input, #albion-ui select { background:#0f0f13; color:#eee; border:1px solid #333; border-radius:8px; padding:8px 10px; outline:none; }
+#albion-ui .footer { grid-column:1 / -1; display:flex; gap:10px; justify-content:flex-end; margin-top:8px; }
+#albion-ui .hud { position:absolute; right:12px; top:80px; width:min(320px,30vw); background:rgba(10,10,14,.55); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px 12px; }
+#albion-ui .hud h4 { color:#eee; margin:6px 0 8px 0; }
+#albion-ui .lb-list .row { display:flex; gap:8px; font-size:13px; color:#ddd; }
+#albion-ui .lb-list .pos { min-width:20px; text-align:right; color:#bbb; }

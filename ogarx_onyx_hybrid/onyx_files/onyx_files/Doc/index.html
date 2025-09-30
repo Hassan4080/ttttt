@@ -1,0 +1,521 @@
+  <html>
+  
+  <head>
+    <title>ONYX - Albion</title>
+        <script>
+      if (location.href.indexOf('127.') > -1) {
+        document.write('<base href="http://127./">');
+      } else {
+        document.write(
+          '<base href=https://ivan_yahnych.gitlab.io/hslo-alb/">'
+        );
+      }
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex" />
+  <meta name="googlebot" content="noindex" />
+  <meta name="version" content="1.1.8" />
+  <meta name="renderer-type" content="WebGL" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+  <link href="https://fonts.googleapis.com/css?family=Oswald:300,400|Raleway:300,400,500|Ubuntu:400,500,700"
+    rel="stylesheet" />
+  <script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=asyncInit"></script>
+  <script src="//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0"></script>
+  <script src="https://apis.google.com/js/platform.js"></script>
+  <script src="https://unpkg.com/tippy.js@2.0.4/dist/tippy.all.min.js"></script>
+  <script src="https://cdn.rawgit.com/dcodeIO/protobuf.js/6.8.8/dist/protobuf.min.js"></script>
+  <script src="https://pixijs.download/v5.2.0/pixi.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pixi-filters@2.7.1/dist/pixi-filters.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    .grecaptcha-badge {
+      display: none;
+    }
+  </style>
+  <script src="./assets/libs/lib.js"></script>
+  <link href="./assets/css/albion.css" rel="stylesheet" />
+  <script src="./assets/css/login.css"></script>
+  </head>
+
+  <body>
+  <div id="fake-loading-screen"></div>
+  <div id="loading-screen">
+    <div class="maou-circle-container">
+      <div class="maou-circle p1"></div>
+      <div class="maou-circle p2"></div>
+      <div class="maou-circle p3"></div>
+    </div>
+    <div class="message" style="
+    animation: fadeIn 3s;
+  "> </div>
+  </div>
+  <div id="captchaWindowV2"
+    style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.8);z-index:500">
+    <div id="verifyUser" style="position:absolute;top:50%;left:50%;margin-left:-152px;margin-top:-40px"></div>
+    <div id="captchaCancel">
+      <button id="captchaCancelBtn" class="menu-button">
+        Close captcha window
+      </button>
+      <div id="captchaCancelDesc">
+        You can try reconnecting or if you are fighting, close this window.
+      </div>
+    </div>
+  </div>
+  <div id="captchaWindowV3" style="display:none"></div>
+  <div id="recorder-overlay" style="display:none">
+    <div class="rec-item-container">
+      <div id="file_rec_button" class="rec-item">
+        <div class="rec-item-icon-area"><i class="fas fa-upload"></i></div>
+        <div class="rec-item-text">Load</div>
+        <input type="file" id="file_rec" style="display:none" accept=".lmc" />
+      </div>
+      <div id="rec-save_button" class="rec-item">
+        <div class="rec-item-icon-area">
+          <i class="fas fa-file-download"></i>
+        </div>
+        <div class="rec-item-text">Save</div>
+      </div>
+    </div>
+    <div id="rec-close">
+      <div class="rec-close-icon"><i class="fas fa-times-circle"></i></div>
+    </div>
+  </div>
+  <div id="anouncement"></div>
+  <div id="huds">
+    <div id="leaderboard-hud">
+      <div id="leaderboard-positions">
+        <span class="lb-position"><span lbData="name"></span>  <span lbData="position">1</span></span>
+        <span class="lb-position"><span lbData="name"></span>  <span lbData="position">2</span></span>
+        <span class="lb-position"><span lbData="name"></span>  <span lbData="position">3</span></span>
+        <span class="lb-position"><span lbData="name"></span>  <span lbData="position">4</span></span>
+        <span class="lb-position"><span lbData="name"></span>  <span lbData="position">5</span></span>
+        <span class="lb-position"><span lbData="name"></span>  <span lbData="position">6</span></span>
+        <span class="lb-position"><span lbData="name"></span>  <span lbData="position">7</span></span>
+        <span class="lb-position"><span lbData="name"></span>  <span lbData="position">8</span></span>
+        <span class="lb-position"><span lbData="name"></span>  <span lbData="position">9</span></span>
+        <span class="lb-position"><span lbData="name"></span>  <span lbData="position">10</span></span>
+        <span class="lb-position"><span lbData="name"></span>  <span lbData="position">100</span></span>
+		<br>
+        <span class="lb-data"><span lbData="dataAmount">ONYX - Albion</span> <span lbData="dataName" style="display:none;">Players<br>Top20 total mass: </span> <span lbData="dataMass" style="display:none;">10000</span></span>
+      </div>
+      <div id="leaderboard-chart">
+        <div class="chart-bar red"></div>
+        <div class="chart-bar green"></div>
+        <div class="chart-bar blue"></div>
+      </div>
+    </div>
+
+    <div id="message-hud">
+      <div id="emojiContainer"></div>
+      <input id="message" Hstr="placeholder.huds.enterChatMsg">
+    </div>
+
+    <div id="chatroom"></div>
+
+    <div id="stats-hud"><i class="fas fa-lock"></i></div>
+
+    <div id="targeting-hud">
+      <div>
+        <div class="spectate-mode-btn active" id="spectate-mode-top"><i class="fas fa-video"></i></div>
+        <div class="spectate-mode-btn" id="spectate-mode-mouse"><i class="fas fa-mouse"></i></div>
+        <div class="spectate-mode-btn" id="spectate-mode-target"><i class="fas fa-bullseye"></i></div>
+      </div>
+      <div id="targeting-no-1" class="static"><span Hstr="html.huds.targeting_bigCellVp">BIGGEST CELL VIEWPORT</span> <i class="fas fa-video"></i></div>
+      <div id="targeting-mouse" class="static"><span Hstr="html.huds.targeting_followVp">VIEWPORT FOLLOWING MOUSE</span> <i class="fas fa-mouse"></i></div>
+      <div id="targeting-players">
+        <div class="static"><span Hstr="html.huds.targeting_players">TARGETING PLAYERS</span> <i class="fas fa-bullseye"></i></div>
+        <div id="targeting-player1"><span class="nick">Target 1</span> [<span class="mass">NOT SELECTED</span>]</div>
+        <div id="targeting-player2"><span class="nick">Target 2</span> [<span class="mass">NOT SELECTED</span>]</div>
+        <div id="targeting-playersMass"><span Hstr="html.huds.targeting_totalMass">TOTAL MASS</span> [<span class="mass">0</span>]</div>
+      </div>
+    </div>
+
+    <div id="teamlist-hud">
+        <div id="teams-vs">
+            <div class="team-vs-info">
+              <div id="team-vs-1">
+                <div id="teamlist-alive1" class="team-info"><i class="fa fa-play"></i> <span>0</span></div>
+                <div id="teamlist-spectate1" class="team-info"><i class="fa fa-pause"></i> <span>0</span></div>
+                <div id="teamlist-totalmass1" class="team-info"><i class="fa fa-eercast"></i> <span>0</span></div>
+              </div>
+              <div id="team-vs-2">
+                <div id="teamlist-alive2" class="team-info"><i class="fa fa-play"></i> <span>0</span></div>
+                <div id="teamlist-spectate2" class="team-info"><i class="fa fa-pause"></i> <span>0</span></div>
+                <div id="teamlist-totalmass2" class="team-info"><i class="fa fa-eercast"></i> <span>0</span></div>
+              </div>
+            </div>
+          <div class="team-vs-bar"><div class="team-vs-bar-inner"></div></div>
+        </div>
+      <div id="teamlist-head">
+        <i class="fas fa-bars" aria-hidden="true"></i> <span Hstr="html.huds.teamlist_title">Team players</span>
+      </div>
+      <div id="teamlist-positions"></div>
+      <div id="info-tp">
+        <div id="teamlist-alive" class="team-info"><i class="fas fa-play"></i> <span>0</span></div>
+		<div id="teamlist-spectate" class="team-info"><i class="fa fa-pause"></i> <span>0</span></div>
+        <div id="teamlist-totalmass" class="team-info"><i class="fas fa-volleyball-ball"></i> <span>0</span></div>
+      </div>
+    </div>
+
+	<div class="minimap-head">
+      <button class="minimap-button" id="minimap-show-1">1</button>
+      <button class="minimap-button" id="minimap-show-2">2</button>
+      <button class="minimap-button active" id="minimap-show-0">All</button>
+      <div id="time-hud"></div>
+    </div>
+	<div id="top10mass">
+	  <span id="mass1"></span>
+	  <span id="mass2"></span>
+	  <span id="mass3"></span>
+	  <span id="mass4"></span>
+	  <span id="mass5"></span>
+	  <span id="mass6"></span>
+	  <span id="mass7"></span>
+	  <span id="mass8"></span>
+	  <span id="mass9"></span>
+	  <span id="mass10"></span>
+	</div>
+    <div id="minimap-hud">
+      <div class="minimap-grid">
+        <div class="minimap-row">
+          <div class="minimap-sector">A1</div>
+          <div class="minimap-sector">A2</div>
+          <div class="minimap-sector">A3</div>
+          <div class="minimap-sector">A4</div>
+          <div class="minimap-sector">A5</div>
+        </div>
+        <div class="minimap-row">
+          <div class="minimap-sector">B1</div>
+          <div class="minimap-sector">B2</div>
+          <div class="minimap-sector">B3</div>
+          <div class="minimap-sector">B4</div>
+          <div class="minimap-sector">B5</div>
+        </div>
+        <div class="minimap-row">
+          <div class="minimap-sector">C1</div>
+          <div class="minimap-sector">C2</div>
+          <div class="minimap-sector">C3</div>
+          <div class="minimap-sector">C4</div>
+          <div class="minimap-sector">C5</div>
+        </div>
+        <div class="minimap-row">
+          <div class="minimap-sector">D1</div>
+          <div class="minimap-sector">D2</div>
+          <div class="minimap-sector">D3</div>
+          <div class="minimap-sector">D4</div>
+          <div class="minimap-sector">D5</div>
+        </div>
+        <div class="minimap-row">
+          <div class="minimap-sector">E1</div>
+          <div class="minimap-sector">E2</div>
+          <div class="minimap-sector">E3</div>
+          <div class="minimap-sector">E4</div>
+          <div class="minimap-sector">E5</div>
+        </div>
+      </div>
+
+      <canvas id="minimap-nodes"></canvas>
+    </div>
+
+    <div id="notifications" style ="display:none;"></div>
+  </div>
+  
+  <div id="menu-overlay">
+    <div class="menu-bar">
+      <div class="menu-bar-button" id="reconnectOGAR01" style="display:none">
+        <i class="fas fa-spinner"></i>1
+      </div>
+      <div class="menu-bar-button" id="reconnectOGAR02" style="display:none">
+        <i class="fas fa-spinner"></i>2
+      </div>
+      <div class="menu-bar-button" id="reconnectSAIGO">
+        <i class="fas fa-spinner"></i>S
+      </div>
+      <div class="menu-bar-button" id="rec_overlay_button" style="display:none">
+        <i class="fas fa-video"></i>
+      </div>
+      <div class="menu-bar-button last" id="changelog" style="display:none">
+        <i class="fa fa-info-circle"></i>
+      </div>
+      <div class="menu-bar-ip" id="ip-box">
+        <button class="reconnect btn-reconnect disconnected material-button" id="rctab1" owner="0"
+          style="position:relative;overflow:hidden">
+          1 <i class="fas fa-sync"></i>
+        </button>
+        <button class="reconnect btn-reconnect disconnected material-button" id="rctab2" owner="1"
+          style="position:relative;overflow:hidden">
+          2 <i class="fas fa-sync"></i>
+        </button>
+        <button class="reconnect btn-reconnect disconnected material-button" id="rctab3" owner="2"
+          style="position:relative; display:none"
+          3 <i class="fas fa-sync"></i>
+        </button>
+        <button class="reconnect btn-reconnect disconnected material-button" id="rctab4" owner="3"
+          style="position:relative; display:none">
+          ALLMAP <i class="fas fa-sync"></i>
+        </button>
+        <span id="ip-box-here" style="display:none"></span>
+          <span id="ip-box-here1">IP: [eu.senpa.io:2001]</span>
+      </div>
+    </div>
+    <div class="menu-blur"></div>
+    <div class="control-bar-container">
+      <div class="control-bar">
+        <div class="bar-button-container">
+          <div class="bar-button-bg left settings"></div>
+          <div class="bar-button-bg center dummy"></div>
+          <div class="bar-button-bg right play"></div>
+          <div class="bar-button-bg right spectate"></div>
+          <div class="bar-button-bg right inputs"></div>
+          <div class="bar-button-bg right theme"></div>
+        </div>
+        <div class="bar-button-container">
+          <div class="bar-button" id="button-settings">
+            <i class="material-icons md-36">settings_applications</i>
+            <div class="text">
+              <span hstr="html.mainMenu.btn_settings">Settings</span>
+            </div>
+          </div>
+          <div class="bar-button dummy"></div>
+          <div class="bar-button" id="button-play">
+            <i class="material-icons">play_circle_filled</i>
+            <div class="text">
+              <span hstr="html.mainMenu.btn_play">Play</span>
+            </div>
+          </div>
+          <div class="bar-button" id="button-spectate">
+            <i class="material-icons">remove_red_eye</i>
+            <div class="text">
+              <span hstr="html.mainMenu.btn_spectate">Spectate</span>
+            </div>
+          </div>
+          <div class="bar-button" id="button-inputs">
+            <i class="material-icons">games</i>
+            <div class="text">
+              <span hstr="html.mainMenu.btn_inputs">Input</span>
+            </div>
+          </div>
+          <div class="bar-button" id="button-theme">
+            <i class="material-icons">color_lens</i>
+            <div class="text">
+              <span hstr="html.mainMenu.btn_theme">Theme</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bar-circle-outer">
+        <div class="bar-circle">
+          <div class="skin-preview"></div>
+        </div>
+      </div>
+      <div class="skin-wheel">
+        <div class="skin-wheel-bg"></div>
+        <div class="skin-selector one" value="1"></div>
+        <div class="skin-selector two" value="2"></div>
+        <div class="skin-selector three" value="3"></div>
+        <div class="skin-selector four" value="4"></div>
+        <div class="skin-selector five" value="5"></div>
+        <div class="skin-selector six" value="6"></div>
+        <div class="skin-selector seven" value="7"></div>
+        <div class="skin-selector eight" value="8"></div>
+      </div>
+    </div>
+    <div id="player-data">
+      <button id="streamMode"><i class="fas fa-eye"></i></button>
+      <div id="mainBlock">
+        <div>
+          <input class="menu-inputs" id="tag" placeholder="Tag" maxlength="10" />
+          <input class="menu-inputs" id="nick" placeholder="Nick 1" maxlength="15" />
+          <input class="menu-inputs" id="nick2" placeholder="Nick 2" maxlength="15" />
+        </div>
+        <input class="menu-inputs" id="skin" placeholder="Skin URL (imgur)" maxlength="60" />
+        <input class="menu-inputs" id="skin2" placeholder="Skin URL 2 (imgur)" maxlength="60" />
+        <div class="party-box" style="display:none;"></div>
+          <button class="menu-button" style="display:none;">
+            <span hstr="html.mainMenu.btn_join">Join</span>
+          </button>
+          <input class="menu-inputs" style="display:none;" placeholder="Room code" />
+          <button class="menu-button" style="display:none;">
+            <span hstr="html.mainMenu.btn_create">Create</span>
+          </button>
+        </div>
+        <div>
+          <select id="gamemode" class="menu-inputs" style="display: none;">
+            <option selected="selected" value=":ffa" hstr="html.mainMenu.select_ffa">FFA</option>
+          </select>
+<select class="menu-inputs" id="regions1" style=" cursor: pointer; width: 265px; margin-top: 30px; margin-right: 0; background: #151515;">
+            <option value="US-Atlanta">EU FFA</option>
+            <option value="BR-Brazil">NA FFA</option>
+</select>
+        </div>
+        <div class="decorator"></div>
+      </div>
+      <div id="block1">
+        <img id="agario-profile-picture-t1" class="agario-profile-picture"
+          src="https://ivan_yahnych.gitlab.io/dead/img/profilepic_guest.png">
+        <div class="agario-profile-name-container">
+          <div id="agario-profile-name-t1" class="stats-line">Guest</div>
+          <div class="stats-line"><i class="fas fa-coins"></i><span id="coins-t1">000</span></div>
+          <div class="stats-line"><i class="fas fa-dna"></i><span id="dna-t1">000</span></div>
+          <div class="stats-line"><i class="fas fa-trophy"></i><span id="trophy-t1">000</span></div>
+          <div class="stats-line"><i class="fas fa-star-half-alt"></i><span id="player-xp-t1">00%</span></div>
+          <div class="stats-line"><i class="fas fa-star"></i><span id="player-lvl-t1">00</span></div>
+        </div>
+        <img id="vanilla-skin-preview-t1" class="vanilla-skin-preview"
+          src="https://ivan_yahnych.gitlab.io/dead/img/profilepic_guest.png">
+        <div id="user-stats-t1" class="leftBlock">
+          <div id="close-stats-t1" class="left-block-close">X</div>
+          <span id="user-profile-id-t1"></span>
+          <div id="stats-content-t1"></div>
+          <div id="user-info-t1"></div>
+        </div>
+  
+            <div class="skin-color-selector">
+              <span class="title texts" Hstr="html.themeMenu.skinBgColor2">Scene</span>
+              <span class="theme-options" type="colorpicker">
+                <input id="skinBgColor2" opacity="1" format="rgb" type="hidden">
+              </span>
+            </div>
+            <img id="skin-loader-preview-t2" class="img-loader-preview">
+            <input type="file" id="skinUpload-t2" style="display: none" />
+            <button id="send-skin-t2" class="menu-button"><i class="fas fa-upload"></i></button>
+            <input class="menu-inputs" id="load-skin-name-t2" placeholder="Skin name" maxlength="15">
+          </div>
+          <div id="player-skins-t2" class="skins-container"></div>
+          <div id="skins-shop-t2" class="skins-container" style="display:none;"></div>
+        </div>
+        </div>
+        <div class="active-timers">
+          <div id="xp-active-t2" class="stats-line"></div>
+          <div id="mass-active-t2" class="stats-line"></div>
+          <div id="quest-active-t2" class="stats-line"></div>
+        </div>
+  <canvas id="canvas"></canvas>
+      <!--- THIRD PARTY PLUGINS--->
+    <script>
+        if (location.href.indexOf('bots') > -1) {
+            document.write(z
+                '<script charset="utf-8" src="./assets/libs/ab.js"><\/script>'
+            );
+        }
+    </script>
+<script>
+
+
+(() => {
+  // ===CONFIGURATION===
+  const CORRECT_KEY = "mySuperSecret123"; // TODO: change this!
+
+  // create gate UI
+  function buildGate() {
+    const gate = document.createElement("div");
+    gate.id = "keyGate";
+    gate.style.cssText = "max-width:400px;margin:12vh auto;text-align:center;font-family:sans-serif;";
+    gate.innerHTML = `
+      <h2>أدخل المفتاح للمتابعة</h2>
+      <input id="keyField" type="password" placeholder="المفتاح السري" style="padding:.6rem;width:100%;margin-top:.4rem;border:1px solid #888;border-radius:4px;" />
+      <button id="submitKey" style="padding:.6rem 1.2rem;margin-top:.8rem;cursor:pointer;">دخول</button>
+      <p id="errorMsg" style="color:#d00;margin-top:.4rem;"></p>
+    `;
+    document.body.prepend(gate);
+  }
+
+  function showContent() {
+    document.getElementById("keyGate").style.display = "none";
+    const contentEl = document.getElementById("protectedContent");
+    if (contentEl) contentEl.style.display = "block";
+  }
+
+  function verifyKey() {
+    const userKey = document.getElementById("keyField").value.trim();
+    if (userKey === CORRECT_KEY) {
+      showContent();
+    } else {
+      document.getElementById("errorMsg").textContent = "المفتاح غير صحيح، حاول مرة أخرى.";
+      document.getElementById("keyField").value = "";
+      document.getElementById("keyField").focus();
+    }
+  }
+
+  // bootstrap
+  document.addEventListener("DOMContentLoaded", () => {
+    buildGate();
+
+    document.getElementById("submitKey").addEventListener("click", verifyKey);
+    document.getElementById("keyField").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") verifyKey();
+    });
+  });
+})();
+
+</script>
+  <script type="text/javascript" src="runtime.58908f3dbdb804a00215.js" charset="utf-8"></script><script type="text/javascript" src="vendors.c173b9063bd6941f8bc0.js" charset="utf-8"></script><script type="text/javascript" src="main.a506d5526a9894e84583.js" charset="utf-8"></script>
+
+    <script>
+
+const ids = ["button-settings", "button-play", "button-spectate", "button-inputs", "button-theme"];
+
+ids.forEach(id => {
+    const button = document.getElementById(id);
+    if (button) {
+        button.addEventListener("click", function handler() { // Give the handler a name for clarity
+            // Disable button immediately to prevent multiple clicks
+            this.disabled = true;
+
+            // --- Create the audio element ---
+            const audio = new Audio("http://ihates.atwebpages.com/zesk/web/test1.php?file=file_68098ef9182419.92541268.mp3");
+
+            // --- Function to clean up the audio element ---
+            const cleanupAudio = () => {
+                // Pause just in case, although usually not necessary after 'ended' or 'error'
+                audio.pause();
+                // Remove the event listeners we added
+                audio.removeEventListener('ended', cleanupAudio);
+                audio.removeEventListener('error', cleanupAudio);
+                // Remove the element from the DOM
+                if (audio.parentNode) {
+                    audio.parentNode.removeChild(audio);
+                }
+                 console.log("Audio element cleaned up.");
+                 // Re-enable the button *after* cleanup (optional, depends on desired behavior)
+                 // button.disabled = false;
+            };
+
+            // --- Attach cleanup listeners ---
+            // Remove the element when playback finishes successfully
+            audio.addEventListener('ended', cleanupAudio);
+            // Also remove the element if an error occurs during loading/playback AFTER play() was initiated
+            audio.addEventListener('error', cleanupAudio);
+
+            // --- Attach to DOM (can be hidden) ---
+            // This helps prevent premature garbage collection
+            audio.style.display = 'none'; // Keep it invisible
+            document.body.appendChild(audio); // Add it to the document
+
+            // --- Attempt to play ---
+            audio.play()
+                .then(() => {
+                    console.log("Playback started successfully.");
+                    // Open the link ONLY after playback has successfully started
+                    window.open("http://o0nyx.atwebpages.com", "_blank");
+                })
+                .catch(error => {
+                    console.error("Error initiating playback:", error);
+                    // An error here likely means playback couldn't even start
+                    // (e.g., browser policy, invalid URL, network error before loading)
+                    // Run cleanup immediately if play() fails
+                    cleanupAudio();
+                    // Maybe re-enable the button if play fails immediately
+                    button.disabled = false;
+                });
+
+            // Note: We moved 'this.disabled = true' to the top of the handler
+        });
+    } else {
+        console.warn(`Element with ID "${id}" not found.`);
+    }
+});
+    </script>
+</body>
+  </html>
